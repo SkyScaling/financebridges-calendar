@@ -17,7 +17,7 @@
     THANKYOU_URL: "thank-you.html",   /* page people land on AFTER they book (handled automatically) */
 
     /* Main video. Paste a YouTube / Vimeo link OR a direct .mp4 URL. Leave "" for a placeholder. */
-    VSL_EMBED: "https://assets.cdn.filesafe.space/YD07511ANI6LBQQguuTM/media/6a0cc738f18a99d9485247f7.mp4",
+    VSL_EMBED: "https://assets.cdn.filesafe.space/cIEiGPHzRWPAUucJJ6QA/media/6a57b066c06d2134c6c30973.mp4",
     VSL_POSTER_TIME: 2.5,   /* which second of the mp4 to freeze as the thumbnail; bump this if the frame looks off */
 
     /* ---- THE ADVISOR (per client) ---- */
@@ -103,7 +103,13 @@
   .sec-title .a{color:var(--accent)}
   .sec-sub{text-align:center;color:var(--text-3);font-size:15px;margin:12px auto 0;max-width:560px;line-height:1.6}
   .calc-card{margin:38px auto 0;border:1px solid rgba(255,255,255,0.14);background:linear-gradient(95deg,#1DBA66 0%,#13A453 48%,#0A7638 100%);border-radius:20px;padding:34px 30px;box-shadow:0 22px 54px -26px var(--accent-glow)}
+  /* The card is 940px wide. Letting one number and one slider track span all
+     of it left the top looking empty. Keeping the control to 560px makes it
+     read as a unit instead of a lonely number on a wide green field. */
+  .calc-top{max-width:560px;margin:0 auto}
   .calc-lab{text-align:center;font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.72)}
+  .calc-hint{display:flex;align-items:center;justify-content:center;gap:7px;margin-top:16px;color:rgba(255,255,255,0.62);font-size:12px;font-weight:600}
+  .calc-hint svg{width:15px;height:15px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
   .calc-val{text-align:center;font-family:'Poppins';font-weight:800;font-size:clamp(34px,6vw,46px);letter-spacing:-0.02em;margin:8px 0 22px;color:#fff}
   #inc-range{-webkit-appearance:none;appearance:none;display:block;width:100%;height:10px;border-radius:999px;outline:none;cursor:pointer}
   #inc-range::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#fff;border:4px solid rgba(255,255,255,0.55);box-shadow:0 4px 12px rgba(6,40,22,0.4);cursor:pointer}
@@ -123,6 +129,7 @@
   .cbox-out .cbig{color:#fff}
   .cbox-in .cbig{color:var(--accent-d)}
   .cbig span{font-size:15px;font-weight:700}
+  .cbox-in .crow b{font-size:13px}
   .cnote{font-size:13.5px;line-height:1.55;margin-top:10px}
   .cbox-out .cnote{color:#A9BCB1}
   .cbox-in .cnote{color:var(--text-2)}
@@ -135,6 +142,8 @@
   .cbox-in .crow b{color:var(--accent)}
   .cvs{align-self:center;width:46px;height:46px;flex:none;border-radius:50%;background:#fff;border:2px solid rgba(255,255,255,0.6);color:var(--accent-d);font-family:'Poppins';font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(6,40,22,0.28)}
   .calc-dis{text-align:center;color:rgba(255,255,255,0.72);font-size:12.5px;line-height:1.6;margin:26px auto 0;max-width:660px}
+  .calc-dis b{color:#fff;font-weight:700}
+  .calc-dis + .calc-dis{margin-top:14px;color:rgba(255,255,255,0.55);font-size:11.5px}
   .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:38px}
   .step{border:1px solid var(--border);background:var(--panel);border-radius:var(--radius);padding:28px 24px;box-shadow:0 4px 14px -10px rgba(13,42,28,0.12)}
   .step .snum{width:34px;height:34px;border-radius:10px;background:var(--accent-tint);color:var(--accent-d);display:flex;align-items:center;justify-content:center;font-family:'Poppins';font-weight:800;font-size:15px;margin-bottom:16px}
@@ -222,50 +231,65 @@ src="https://www.facebook.com/tr?id=1100120314636630&ev=PageView&noscript=1"
     <div class="sec-title">What Six Months <span style="white-space:nowrap">Off Work</span> <span class="a">Actually Costs You</span></div>
     <div class="sec-sub">Drag the slider to your income. This is the math most business owners never run.</div>
     <div class="calc-card">
-      <div class="calc-lab">Your personal income</div>
-      <div class="calc-val" id="inc-val">$100,000</div>
-      <input type="range" id="inc-range" min="40000" max="250000" step="5000" value="100000" aria-label="Your personal income">
-      <div class="calc-scale"><span>$40k</span><span>$250k</span></div>
+      <div class="calc-top">
+        <div class="calc-lab">Your personal income</div>
+        <div class="calc-val" id="inc-val">$100,000</div>
+        <input type="range" id="inc-range" min="40000" max="250000" step="5000" value="100000" aria-label="Your personal income">
+        <div class="calc-scale"><span>$40k</span><span>$250k</span></div>
+        <div class="calc-hint">
+          <svg viewBox="0 0 24 24"><path d="M18 8 22 12 18 16"/><path d="M6 8 2 12 6 16"/><path d="M2 12h20"/></svg>
+          Drag to your income
+        </div>
+      </div>
       <div class="calc-grid">
         <div class="cbox cbox-out">
           <div class="cbox-h"><i>&#10005;</i>Without coverage</div>
           <div class="cbig" id="c-lost">$50,000</div>
-          <div class="cnote">gone in 6 months. Your income stops day one. The bills keep coming.</div>
+          <div class="cnote">gone in 6 months. Out of your savings, or onto a line of credit you'll still be paying back long after you're better. And that's just your income. The rent and the payroll don't stop because you did.</div>
           <div class="clist">
-            <div class="crow"><span>3 months off work</span><b id="c-3">-$25,000</b></div>
-            <div class="crow"><span>6 months off work</span><b id="c-6">-$50,000</b></div>
-            <div class="crow"><span>12 months off work</span><b id="c-12">-$100,000</b></div>
+            <div class="crow"><span>3 months off work</span><b id="c-3">-$25k</b></div>
+            <div class="crow"><span>6 months off work</span><b id="c-6">-$50k</b></div>
+            <div class="crow"><span>12 months off work</span><b id="c-12">-$100k</b></div>
           </div>
         </div>
         <div class="cvs">VS</div>
         <div class="cbox cbox-in">
           <div class="cbox-h"><i>&#10003;</i>With coverage</div>
-          <div class="cbig" id="c-pay">$5,417<span>/mo</span></div>
-          <div class="cnote">paid to you every month while you recover. Your savings stay yours.</div>
+          <div class="cbig" id="c-pay">$8,333<span>/mo</span></div>
+          <div class="cnote">is what you normally bring in. Income protection is built to replace as much of that as you qualify for, paid straight to you while you can't work. Your advisor puts the real number on it in 15 minutes.</div>
           <div class="clist">
-            <div class="crow"><span>3 months off work</span><b id="c-p3">+$16,250</b></div>
-            <div class="crow"><span>6 months off work</span><b id="c-p6">+$32,500</b></div>
-            <div class="crow"><span>12 months off work</span><b id="c-p12">+$65,000</b></div>
+            <div class="crow"><span>Paid to you, not to a creditor</span><b>&#10003;</b></div>
+            <div class="crow"><span>Yours to spend on anything</span><b>&#10003;</b></div>
+            <div class="crow"><span>Nothing to claim from the government</span><b>&#10003;</b></div>
           </div>
         </div>
       </div>
-      <p class="calc-dis">Illustrative only. Income protection typically replaces about 60 to 70 percent of your income, and a critical illness claim can pay a tax-free lump sum on top. What you'd actually qualify for, and what it would cost, depends on your health and situation. That's exactly what the 15-minute call is for.</p>
+      <p class="calc-dis"><b>And EI won't save you.</b> It's capped, it runs out, and you can only claim it if you signed up with Service Canada a full year before you got sick. Almost no business owner does. For most, that red number is the whole number.</p>
+      <p class="calc-dis">Illustrative only, based on the income you selected. What you'd qualify for, and what it would cost, depends on your health and your situation. That's exactly what the 15-minute call is for.</p>
     </div>
   </section>
   <script>
   (function(){
     var r=document.getElementById('inc-range'); if(!r) return;
+
     function money(n){ return '$'+Math.round(n).toLocaleString('en-CA'); }
+    function kfmt(n){ return '$'+(Math.round(n/100)/10).toString().replace(/\.0$/,'')+'k'; }
     function set(id,v){ var el=document.getElementById(id); if(el) el.textContent=v; }
+
     function paint(){
-      var v=+r.value, b=(v/12)*0.65;
+      var v=+r.value;
       var pct=((v-(+r.min))/((+r.max)-(+r.min)))*100;
       r.style.background='linear-gradient(90deg,#fff 0%,#fff '+pct+'%,rgba(255,255,255,0.28) '+pct+'%,rgba(255,255,255,0.28) 100%)';
       set('inc-val',money(v));
+
+      /* Lost income: plain arithmetic, so it stays exact. */
       set('c-lost',money(v*0.5));
-      set('c-3','-'+money(v*0.25)); set('c-6','-'+money(v*0.5)); set('c-12','-'+money(v));
-      var pay=document.getElementById('c-pay'); if(pay) pay.innerHTML=money(b)+'<span>/mo</span>';
-      set('c-p3','+'+money(b*3)); set('c-p6','+'+money(b*6)); set('c-p12','+'+money(b*12));
+      set('c-3','-'+kfmt(v*0.25)); set('c-6','-'+kfmt(v*0.5)); set('c-12','-'+kfmt(v));
+
+      /* Their actual monthly pay. No benefit is claimed or implied here: what
+         they'd qualify for depends on the policy, so the advisor sizes it. */
+      var pay=document.getElementById('c-pay');
+      if(pay) pay.innerHTML=money(v/12)+'<span>/mo</span>';
     }
     r.addEventListener('input',paint); paint();
   })();
